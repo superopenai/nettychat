@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="me.superning.nettychat.mapper.FriendsRequestMapper">
+  <resultMap id="BaseResultMap" type="me.superning.nettychat.domain.FriendsRequest">
+    <!--@mbg.generated generated on Sun Dec 01 14:09:06 CST 2019.-->
+    <!--@Table friends_request-->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="send_user_id" jdbcType="BIGINT" property="sendUserId" />
+    <result column="accept_user_id" jdbcType="BIGINT" property="acceptUserId" />
+    <result column="request_date_time" jdbcType="TIMESTAMP" property="requestDateTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated generated on Sun Dec 01 14:09:06 CST 2019.-->
+    id, send_user_id, accept_user_id, request_date_time
+  </sql>
+</mapper>
