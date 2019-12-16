@@ -13,6 +13,7 @@ import lombok.Data;
 public class ChatMsg implements Serializable {
     @Id
     @Column(name = "id")
+    @GeneratedValue(generator = "JDBC")
     @ApiModelProperty(value="null")
     private Long id;
 
@@ -37,4 +38,5 @@ public class ChatMsg implements Serializable {
     private Date createTime;
 
     private static final long serialVersionUID = 1L;
+
 }

@@ -260,7 +260,7 @@ public class UserServiceImpl implements UserService {
      * @param username
      */
     @Override
-    @Transactional(propagation = Propagation.REQUIRED)
+    @Transactional(propagation = Propagation.REQUIRED , rollbackFor = Exception.class)
     public void sendFriendRequest(long myid, String username) {
         if (findFriendByUsername(myid, username).equals(SeachFriendStatusEnums.SUCCESS.status))
         {

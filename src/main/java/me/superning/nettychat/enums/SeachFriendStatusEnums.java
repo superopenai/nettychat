@@ -27,7 +27,7 @@ public enum  SeachFriendStatusEnums {
 
     public static String getMsgByKey(Integer status) {
         for (SeachFriendStatusEnums type : SeachFriendStatusEnums.values()) {
-            if (type.getStatus() == status) {
+            if (type.getStatus().equals(status)) {
                 return type.msg;
             }
         }
