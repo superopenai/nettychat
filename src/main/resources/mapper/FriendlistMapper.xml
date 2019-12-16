@@ -12,4 +12,19 @@
     <!--@mbg.generated generated on Sun Dec 01 14:09:06 CST 2019.-->
     id, my_id, my_friend_id
   </sql>
+    <select id="selectFriendList" resultType="me.superning.nettychat.domain.vo.MyFriendVo"
+      parameterType="long">
+      select
+      friend.id as friendId,
+      friend.username as friendUsername,
+      friend.nickname as friendNickname,
+      friend.face_image AS friendImage
+
+      from
+      Friendlist as list left join user as friend
+      on list.my_friend_id = friend.id
+      where list.my_id = #{myId}
+
+
+    </select>
 </mapper>

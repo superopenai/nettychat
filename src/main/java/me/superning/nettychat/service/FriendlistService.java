@@ -1,5 +1,12 @@
 package me.superning.nettychat.service;
 
+import me.superning.nettychat.domain.vo.MyFriendVo;
+
+import java.util.List;
+
+/**
+ * @author superning
+ */
 public interface FriendlistService{
 
     /**
@@ -10,6 +17,7 @@ public interface FriendlistService{
      *        通过请求的朋友的id
      */
     void addNewFriend(Long myId,Long friendid);
+    List<MyFriendVo> myFriendList(Long myId);
 
 
 }

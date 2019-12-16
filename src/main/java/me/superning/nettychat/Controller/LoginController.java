@@ -4,6 +4,7 @@ import me.superning.nettychat.domain.FriendsRequest;
 import me.superning.nettychat.domain.User;
 import me.superning.nettychat.domain.UserImage;
 import me.superning.nettychat.domain.vo.FriendRequestsVo;
+import me.superning.nettychat.domain.vo.MyFriendVo;
 import me.superning.nettychat.enums.OperatorFriendRequestTypeEnum;
 import me.superning.nettychat.enums.SeachFriendStatusEnums;
 import me.superning.nettychat.service.FriendlistService;
@@ -15,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.LongSummaryStatistics;
 
 /**
  * @author superning
@@ -119,7 +121,7 @@ public class LoginController {
 
         if (myId==null||sendrId==null)
         {
-            ResponResult.errorMsg("输入错误，请检查输 入准确性");
+            ResponResult.errorMsg("输入错误，请检查输入准确性");
 
         }
 
@@ -133,7 +135,7 @@ public class LoginController {
             friendsRequestService.deleteRequest(sendrId,myId);
         }
         else {
-
+            //双向添加好友，然后删除请求
             friendlistService.addNewFriend(myId,sendrId);
             friendlistService.addNewFriend(sendrId,myId);
             friendsRequestService.deleteRequest(sendrId,myId);
@@ -145,6 +147,24 @@ public class LoginController {
 
     }
 
+        @GetMapping(value = "/friendlist")
+        public ResponResult myFriendsList(Long myId)
+        {
+            if (myId==null)
+            {
+                return ResponResult.errorMsg("请确认输入");
+
+            }else
+            {
+                List<MyFriendVo> myFriendVos = friendlistService.myFriendList(myId);
+
+
+                return  ResponResult.ok(myFriendVos);
+
+            }
+
+
+        }
 
 
 }

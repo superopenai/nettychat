@@ -28,6 +28,9 @@ import java.io.InputStream;
 import java.nio.file.Path;
 import java.util.List;
 
+/**
+ * @author superning
+ */
 @Service
 public class UserServiceImpl implements UserService {
 
@@ -94,6 +97,7 @@ public class UserServiceImpl implements UserService {
      */
 
     @Override
+    @Transactional(propagation = Propagation.SUPPORTS)
     public User registUser(String username, String passwd) {
         User newUser = new User();
 
@@ -122,6 +126,7 @@ public class UserServiceImpl implements UserService {
      */
 
     @Override
+    @Transactional(propagation = Propagation.REQUIRED)
     public void uploadImage(UserImage userImage) {
 
         try {
@@ -175,6 +180,7 @@ public class UserServiceImpl implements UserService {
      * @throws IOException
      */
     @Override
+    @Transactional(propagation = Propagation.REQUIRED)
     public void convertBlob(Long id) throws IOException {
             User user = (User) userMapper.selectByPrimaryKey(id);
             String tag = user.getUsername();
@@ -236,8 +242,10 @@ public class UserServiceImpl implements UserService {
      * @param username
      *         用户名
      * @return
+     *
      */
     @Override
+    @Transactional(propagation = Propagation.REQUIRED)
     public User findUserByname(String username) {
         Example userExample = new Example(User.class);
         userExample.createCriteria().andEqualTo("username", username);
@@ -252,6 +260,7 @@ public class UserServiceImpl implements UserService {
      * @param username
      */
     @Override
+    @Transactional(propagation = Propagation.REQUIRED)
     public void sendFriendRequest(long myid, String username) {
         if (findFriendByUsername(myid, username).equals(SeachFriendStatusEnums.SUCCESS.status))
         {
@@ -287,6 +296,7 @@ public class UserServiceImpl implements UserService {
      * +------------+--------------+---------------+--------------+
      */
     @Override
+    @Transactional(propagation = Propagation.SUPPORTS)
     public List<FriendRequestsVo> listAllToMeRequest(Long acceptUserId) {
 
         return userMapper.listAllToMeRequest(acceptUserId);
