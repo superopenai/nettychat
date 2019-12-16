@@ -8,6 +8,9 @@ import javax.annotation.Resource;
 import me.superning.nettychat.service.FriendsRequestService;
 import tk.mybatis.mapper.entity.Example;
 
+/**
+ * @author superning
+ */
 @Service
 public class FriendsRequestServiceImpl implements FriendsRequestService{
 
@@ -27,8 +30,9 @@ public class FriendsRequestServiceImpl implements FriendsRequestService{
     public void deleteRequest(Long senderId,Long myId) {
 
         Example requestExample = new Example(FriendsRequest.class);
+
         requestExample.createCriteria().andEqualTo("sendUserId",senderId)
-                .andEqualTo("acceptUserId",myId);
+                                         .andEqualTo("acceptUserId",myId);
         friendsRequestMapper.deleteByExample(requestExample);
     }
 }

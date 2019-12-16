@@ -48,7 +48,7 @@ class NettyChatApplicationTests {
     Long friend = 2L;
     Integer op = 1;
 
-     loginController.listFriendList(my,friend,op);
+     loginController.listFriendList(2L,1L,op);
 
     }
 
