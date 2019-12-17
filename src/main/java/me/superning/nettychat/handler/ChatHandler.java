@@ -1,6 +1,7 @@
 package me.superning.nettychat.handler;
 
 import io.netty.channel.Channel;
+import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.channel.group.ChannelGroup;
@@ -13,6 +14,7 @@ import me.superning.nettychat.netty.DataContent;
 import me.superning.nettychat.netty.UserChannelRel;
 import me.superning.nettychat.service.ChatMsgService;
 import me.superning.nettychat.utils.JsonUtils;
+import me.superning.nettychat.utils.SpringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,11 +26,13 @@ import java.time.LocalDateTime;
  * <p>
  * TextWebSocketFrame： 是用于为websocket处理文本的对象
  */
+@ChannelHandler.Sharable
 public class ChatHandler extends SimpleChannelInboundHandler<TextWebSocketFrame> {
 
 
-
-    //一个存放channel的容器
+    /**
+     * 一个存放channel的容器
+     */
     private static ChannelGroup users = new DefaultChannelGroup(GlobalEventExecutor.INSTANCE);
 
 
@@ -43,35 +47,53 @@ public class ChatHandler extends SimpleChannelInboundHandler<TextWebSocketFrame>
         //检查枚举类型
         Integer action = dataContent.getAction();
 
-        if (action.equals(MsgActionEnum.CONNECT.type))
-        {
+        if (action.equals(MsgActionEnum.CONNECT.type)) {
 
             //用Hashmap把channel和userId 关联起来
             Long senderId = dataContent.getChatMsg().getSenderId();
-            UserChannelRel.put(senderId,channel);
+            UserChannelRel.put(senderId, channel);
 
 
         }
-        else if (action.equals(MsgActionEnum.CHAT.type))
-        {
+        else if (action.equals(MsgActionEnum.CHAT.type)) {
+            //消息发送前，先保存
             ChatMsg chatMsg = dataContent.getChatMsg();
+            me.superning.nettychat.service.ChatMsgService chatMsgService = (ChatMsgService) SpringUtil.getBean("ChatMsgServiceImpl");
+            Long msgId = chatMsgService.saveMsg(chatMsg);
+            chatMsg.setMsgId(msgId);
+            //消息发送
+            Channel receieveChannel = UserChannelRel.get(chatMsg.getReceieverId());
+            if (receieveChannel == null) {
+                //channel为空代表用户离线。。。
+            } else {
+                //当channel不为null的时候，
 
+                Channel channelExistOrNot = users.find(receieveChannel.id());
+                if (channelExistOrNot == null) {
+                    //用户离线
+                } else {
+                    //用户在线
+                    receieveChannel.writeAndFlush(new TextWebSocketFrame(JsonUtils.objectToJson(chatMsg)));
+                }
+            }
+
+        }
+        else if (action.equals(MsgActionEnum.SIGNED.type)) {
+            //消息签收
+            me.superning.nettychat.service.ChatMsgService chatMsgService = (ChatMsgService) SpringUtil.getBean("ChatMsgServiceImpl");
+            ChatMsg chatMsg = dataContent.getChatMsg();
+            if (chatMsg.getSenderId()!=null&&chatMsg.getReceieverId()!=null&&chatMsg.getMsg()!=null)
+            {
+                chatMsgService.oneMsgSelectAndUpdate(chatMsg.getReceieverId(),chatMsg.getSenderId());
+            }
 
 
         }
-        else if (action.equals(MsgActionEnum.SIGNED.type))
-        {
+        else if (action.equals(MsgActionEnum.KEEPALIVE.type)) {
+
+        } else if (action.equals(MsgActionEnum.PULL_FRIEND.type)) {
 
         }
-        else if (action.equals(MsgActionEnum.KEEPALIVE.type))
-        {
-
-        }
-        else if (action.equals(MsgActionEnum.PULL_FRIEND.type))
-        {
-
-        }
-
 
 
     }
@@ -98,8 +120,6 @@ public class ChatHandler extends SimpleChannelInboundHandler<TextWebSocketFrame>
         // 源码解释：A closed Channel is automatically removed from the collection
         //  so that you don't need to worry about the life cycle of the added Channel.
         users.remove(ctx.channel());
-
-
 
 
     }

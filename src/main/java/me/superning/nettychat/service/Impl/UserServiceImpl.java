@@ -111,7 +111,7 @@ public class UserServiceImpl implements UserService {
             // nickname默认和username相同，
             newUser.setNickname(username);
 
-            int insert = userMapper.insertSelective(newUser);
+             userMapper.insertSelective(newUser);
 
         } catch (Exception e) {
             e.printStackTrace();

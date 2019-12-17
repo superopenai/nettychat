@@ -2,6 +2,7 @@ package me.superning.nettychat;
 
 import com.google.zxing.WriterException;
 import me.superning.nettychat.Controller.LoginController;
+import me.superning.nettychat.service.ChatMsgService;
 import me.superning.nettychat.service.UserService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,12 +16,15 @@ class NettyChatApplicationTests {
     @Autowired
     UserService service;
     @Autowired
+    ChatMsgService chatMsgService;
+
+    @Autowired
     LoginController loginController;
 
 
     @Test
     void reg() {
-        service.registUser("刘希宁","134556673843");
+        service.registUser("茜茜","宝贝");
 
 
     }
@@ -59,6 +63,12 @@ class NettyChatApplicationTests {
         System.out.println(loginController.myFriendsList(2L).getData());
 
 
+    }
+
+    @Test
+    void msgSelectAndUpdate()
+    {
+        chatMsgService.oneMsgSelectAndUpdate(3L,1L);
     }
 
 }
