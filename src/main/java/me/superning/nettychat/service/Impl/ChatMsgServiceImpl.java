@@ -51,5 +51,20 @@ public class ChatMsgServiceImpl implements ChatMsgService{
         });
     }
 
+    /**
+     *
+     * @param receieveId
+     *
+     * @return
+     */
+    @Override
+    public List<me.superning.nettychat.domain.ChatMsg> getUnReadMsg(Long receieveId) {
+        Example chatMsgExample = new Example(me.superning.nettychat.domain.ChatMsg.class);
+        chatMsgExample.createCriteria().andEqualTo("acceptUserId",receieveId).andEqualTo("signFlag",0);
+
+        return (List<me.superning.nettychat.domain.ChatMsg>) chatMsgMapper.selectByExample(chatMsgExample);
+
+    }
+
 
 }

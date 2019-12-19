@@ -89,7 +89,7 @@ public class ChatHandler extends SimpleChannelInboundHandler<TextWebSocketFrame>
 
 
         }
-        else if (action.equals(MsgActionEnum.KEEPALIVE.type)) {
+         else if (action.equals(MsgActionEnum.KEEPALIVE.type)) {
 
         } else if (action.equals(MsgActionEnum.PULL_FRIEND.type)) {
 
@@ -119,7 +119,10 @@ public class ChatHandler extends SimpleChannelInboundHandler<TextWebSocketFrame>
         //这个语句是多余的，先注释了
         // 源码解释：A closed Channel is automatically removed from the collection
         //  so that you don't need to worry about the life cycle of the added Channel.
+        // 当客户端进程结束的时候，才会判断channel结束了，自动remove
         users.remove(ctx.channel());
+
+        //心跳检查
 
 
     }

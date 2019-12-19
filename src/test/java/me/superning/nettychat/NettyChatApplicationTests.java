@@ -1,7 +1,9 @@
 package me.superning.nettychat;
 
+import com.alibaba.fastjson.JSON;
 import com.google.zxing.WriterException;
 import me.superning.nettychat.Controller.LoginController;
+import me.superning.nettychat.domain.ChatMsg;
 import me.superning.nettychat.service.ChatMsgService;
 import me.superning.nettychat.service.UserService;
 import org.junit.jupiter.api.Test;
@@ -9,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.io.IOException;
+import java.util.List;
 
 @SpringBootTest
 class NettyChatApplicationTests {
@@ -24,7 +27,7 @@ class NettyChatApplicationTests {
 
     @Test
     void reg() {
-        service.registUser("茜茜","宝贝");
+        service.registUser("茜茜", "宝贝");
 
 
     }
@@ -39,26 +42,23 @@ class NettyChatApplicationTests {
     }
 
     @Test
-    void request ()
-    {
-        service.sendFriendRequest(2,"刘希宁");
+    void request() {
+        service.sendFriendRequest(2, "刘希宁");
     }
 
 
     @Test
-    void addNewFriend()
-    {
-    Long my = 3L;
-    Long friend = 2L;
-    Integer op = 1;
+    void addNewFriend() {
+        Long my = 3L;
+        Long friend = 2L;
+        Integer op = 1;
 
-     loginController.listFriendList(2L,1L,op);
+        loginController.listFriendList(2L, 1L, op);
 
     }
 
     @Test
-    void myFriendList()
-    {
+    void myFriendList() {
 
         System.out.println(loginController.myFriendsList(2L).getData());
 
@@ -66,9 +66,17 @@ class NettyChatApplicationTests {
     }
 
     @Test
-    void msgSelectAndUpdate()
-    {
-        chatMsgService.oneMsgSelectAndUpdate(3L,1L);
+    void msgSelectAndUpdate() {
+        chatMsgService.oneMsgSelectAndUpdate(3L, 1L);
     }
 
+    @Test
+    void getUnReadMsg() {
+
+
+        List<ChatMsg> unReadMsg = chatMsgService.getUnReadMsg(3L);
+        System.out.println(unReadMsg.toString());
+        String jsonString = JSON.toJSONString(unReadMsg);
+        System.out.println(jsonString);
+    }
 }

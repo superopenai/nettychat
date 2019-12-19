@@ -1,5 +1,6 @@
 package me.superning.nettychat.domain;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.io.Serializable;
@@ -35,6 +36,7 @@ public class ChatMsg implements Serializable {
 
     @Column(name = "create_time")
     @ApiModelProperty(value="null")
+    @JSONField(format = "yyyy-mm-dd hh:mm:ss")
     private Date createTime;
 
     private static final long serialVersionUID = 1L;

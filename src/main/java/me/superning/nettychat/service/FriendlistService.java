@@ -17,6 +17,18 @@ public interface FriendlistService{
      *        通过请求的朋友的id
      */
     void addNewFriend(Long myId,Long friendid);
+
+    /**
+     *
+     * @param myId
+     * +----------+----------------+----------------+-------------+
+     * | friendId | friendUsername | friendNickname | friendImage |
+     * +----------+----------------+----------------+-------------+
+     * |        3 | xxx     xxxx   | xxxxxxxxxx     |             |
+     * |        1 | test           | test           |             |
+     * +----------+----------------+----------------+-------------+
+     * @return
+     */
     List<MyFriendVo> myFriendList(Long myId);
 
 
