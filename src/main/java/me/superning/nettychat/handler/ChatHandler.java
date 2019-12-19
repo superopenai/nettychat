@@ -91,6 +91,9 @@ public class ChatHandler extends SimpleChannelInboundHandler<TextWebSocketFrame>
         }
          else if (action.equals(MsgActionEnum.KEEPALIVE.type)) {
 
+            System.out.println("收到"+"["+channel+"]"+"的连接");
+
+
         } else if (action.equals(MsgActionEnum.PULL_FRIEND.type)) {
 
         }

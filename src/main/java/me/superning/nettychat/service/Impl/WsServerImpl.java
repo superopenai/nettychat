@@ -34,7 +34,10 @@ public class WsServerImpl implements WsServer {
         serverBootstrap = new ServerBootstrap();
         serverBootstrap.group(mainGroup, subGroup);
         serverBootstrap.channel(NioServerSocketChannel.class);
+        serverBootstrap.localAddress("172.16.176.168",33333);
         serverBootstrap.childHandler(new WsServerInitialzer());
+
+
 
 
     }
@@ -42,8 +45,8 @@ public class WsServerImpl implements WsServer {
     @Override
     public void start() throws InterruptedException {
 
-            ChannelFuture sync = serverBootstrap.bind(33333).sync();
-            System.err.println("Server start listen at ");
+        ChannelFuture sync = serverBootstrap.bind().sync();
+        System.err.println("Server start listen at ");
 //            sync.channel().closeFuture().sync();
 
 

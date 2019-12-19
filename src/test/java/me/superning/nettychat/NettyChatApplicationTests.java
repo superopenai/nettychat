@@ -2,6 +2,7 @@ package me.superning.nettychat;
 
 import com.alibaba.fastjson.JSON;
 import com.google.zxing.WriterException;
+import io.netty.handler.timeout.IdleStateEvent;
 import me.superning.nettychat.Controller.LoginController;
 import me.superning.nettychat.domain.ChatMsg;
 import me.superning.nettychat.service.ChatMsgService;
@@ -73,10 +74,10 @@ class NettyChatApplicationTests {
     @Test
     void getUnReadMsg() {
 
-
-        List<ChatMsg> unReadMsg = chatMsgService.getUnReadMsg(3L);
-        System.out.println(unReadMsg.toString());
-        String jsonString = JSON.toJSONString(unReadMsg);
-        System.out.println(jsonString);
+        Object ob = new Object();
+        if (ob instanceof IdleStateEvent)
+        {
+            System.out.println("fuck yeh");
+        }
     }
 }

@@ -10,7 +10,7 @@
     </parent>
     <groupId>me.superning</groupId>
     <artifactId>nettychat</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>1.0.0</version>
     <name>NettyChat</name>
     <packaging>jar</packaging>
     <description>netty project for Spring Boot</description>
